@@ -30,12 +30,12 @@ This is done by installing yum-cron and activate the yum-cron system service
 ansible-playbook site.yml -e 'automatic_updates=true'
 ```
 
-=== Do everything
+### Do everything
 ```
 ansible-playbook site.yml -e 'update_all=true do_reboot=true automatic_updates=true'
 ```
 
-== Defaults
+## Defaults
 By default nothing is done except a message is print that a task needs to be specified
 
 One variable can be defined: What should be included in the autmatic updates: 
