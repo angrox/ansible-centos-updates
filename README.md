@@ -1,4 +1,4 @@
-= Centos-Updates
+# Centos-Updates
 
 This module has the following features:
 * Apply Updates
@@ -8,10 +8,10 @@ This module has the following features:
 * Activate automatic installation of security relevant updates (each day) without reboot
 
 
-== Usage
+## Usage
 The module needs variables set to work properly. When using ansible-playbook you can provide them with the option "-e". 
 
-=== Apply Updates & Reboot
+### Apply Updates & Reboot
 ```
 ansible-playbook site.yml -e 'security_updates=true'
 ansible-playbook site.yml -e 'update_all=true'
@@ -23,7 +23,7 @@ ansible-playbook site.yml -e 'do_reboot=true'
 ansible-playbook site.yml -e 'update_all=true do_reboot=true'
 ```
 
-=== Automatic Updates
+### Automatic Updates
 This is done by installing yum-cron and activate the yum-cron system service
 
 ```
