@@ -3,6 +3,11 @@
     msg: "You need to specify automatic_updates or security_updates (both to true)"
   when: automatic_updates is not defined and security_updates is not defined
 
+- name: Process requirements (yum-utils)
+  package:
+    name: yum-utils
+    state: installed
+
 - name: Install yum-cron
   package:
     name: yum-cron
