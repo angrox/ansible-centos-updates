@@ -1,0 +1,69 @@
+- name: Print usage when no extra args are specified
+  debug:
+    msg: "You need to specify automatic_updates or security_updates (both to true)"
+  when: automatic_updates is not defined and security_updates is not defined
+
+- name: Install yum-cron
+  package:
+    name: yum-cron
+    state: present
+  when: automatic_updates is defined
+  tags:
+    - automatic_updates
+
+- name: Disable hourly yum-cron
+  file:
+    name: /etc/cron.hourly/0yum-hourly.cron
+    state: absent
+  when: automatic_updates is defined
+  tags:
+    - automatic_updates
+
+- name: Copy yum-cron.conf
+  template:
+    src: yum-cron.conf.j2
+    dest: /etc/yum/yum-cron.conf
+  when: automatic_updates is defined
+  tags:
+    - automatic_updates
+
+- name: Enable yum-cron service
+  service:
+    name: yum-cron
+    enabled: yes
+    state: started
+  when: automatic_updates is defined
+  tags:
+    - automatic_updates
+
+- name: Security updates only
+  command: yum -y --security update
+  when: security_updates is defined
+  tags:
+    - security_updates
+
+- name: Complete Update
+  yum:
+    update_cache: yes
+    name: '*'
+    state: latest
+  when: update_all is defined
+  tags:
+    - update_all
+
+- name: Check if system needs a reboot
+  command: needs-restarting -r
+  register: reboot_required
+  failed_when: reboot_required.rc not in [0,1]
+
+- name: restart_server
+  command: /usr/bin/systemd-run --on-active=10 /usr/bin/systemctl reboot
+  async: 0
+  poll: 0
+  ignore_errors: true
+  when: reboot_required.rc == 1 and do_reboot is defined
+  notify:
+    - waitfor_server
+
+
+
