@@ -1,3 +1,9 @@
-- name: waitfor_server
-  local_action: wait_for host={{ ansible_host }} state=started port=22 delay=30 timeout=200
+- name: Wait ssh down after server_reboot
+  local_action: wait_for host={{ inventory_hostname }} port=22 delay=0 timeout={{ wait_ssh_down_timeout }} state=stopped
   become: false
+  listen: waitfor_server
+
+- name: Wait ssh up after server reboot 
+  local_action: wait_for host={{ inventory_hostname }} state=started port=22 delay=30 timeout={{ wait_ssh_up_timeout }}
+  become: false
+  listen: waitfor_server
