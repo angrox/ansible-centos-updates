@@ -52,6 +52,9 @@
     update_cache: yes
     name: '*'
     state: latest
+    exclude: '{{ excluded_packages }}'
+    disablerepo: '{{ disabled_repos }}'    
+    enablerepo: '{{ enabled_repos }}'    
   when: update_all is defined
   tags:
     - update_all
