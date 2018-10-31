@@ -7,8 +7,6 @@
 # minimal-security                   = yum --security update-minimal
 # minimal-security-severity:Critical =  --sec-severity=Critical update-minimal
 yum_update_command: minimal-security
-wait_ssh_down_timeout: 120
-wait_ssh_up_timeout: 500
 disabled_repos: ''
 enabled_repos: ''
 excluded_packages: ''

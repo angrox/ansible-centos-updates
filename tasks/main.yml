@@ -67,14 +67,8 @@
       failed_when: reboot_required.rc not in [0,1]
 
     - name: restart_server
-      command: /usr/bin/systemd-run --on-active=10 /usr/bin/systemctl reboot
-      async: 0
-      poll: 0
-      ignore_errors: true
+      reboot:
       when: reboot_required.rc == 1 and do_reboot is defined
-      notify:
-       - waitfor_server
-
 
 - when: ansible_distribution_major_version == "6"
   block:
@@ -83,14 +77,8 @@
       register: reboot_required
 
     - name: restart_server
-      shell: sleep 2 && shutdown -r now "Reboot triggered by Ansible" 
-      async: 0
-      poll: 0
-      ignore_errors: true
+      reboot:
       when: reboot_required.stdout != "" and do_reboot is defined
-      notify:
-       - waitfor_server
-
 
 
 
