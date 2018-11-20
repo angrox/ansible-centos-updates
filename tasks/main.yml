@@ -52,9 +52,9 @@
     update_cache: yes
     name: '*'
     state: latest
-    exclude: '{{ excluded_packages }}'
-    disablerepo: '{{ disabled_repos }}'    
-    enablerepo: '{{ enabled_repos }}'    
+    exclude: '{{ excluded_packages | default(omit, true) }}'
+    disablerepo: '{{ disabled_repos | default(omit, true) }}'
+    enablerepo: '{{ enabled_repos | default(omit, true) }}'
   when: update_all is defined
   tags:
     - update_all
